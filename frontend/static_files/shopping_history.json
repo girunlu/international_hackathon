@@ -1,0 +1,337 @@
+{
+  "shoppingTrips": [
+    {
+      "date": "2025-11-09",
+      "items": [
+        {
+          "name": "onion",
+          "amount": 7.0,
+          "totalPrice": 8.4,
+          "wastedPrice": 0.72,
+          "weeklyTotalPrice": 41.4,
+          "weeklyWastedPrice": 6.14,
+          "itemWeeklyTotalPrice": 8.4,
+          "itemWeeklyWastedPrice": 0.72
+        },
+        {
+          "name": "Tomato",
+          "amount": 10.0,
+          "totalPrice": 18.0,
+          "wastedPrice": 3.42,
+          "weeklyTotalPrice": 41.4,
+          "weeklyWastedPrice": 6.14,
+          "itemWeeklyTotalPrice": 18.0,
+          "itemWeeklyWastedPrice": 3.42
+        },
+        {
+          "name": "Potato",
+          "amount": 6.0,
+          "totalPrice": 15.0,
+          "wastedPrice": 2.0,
+          "weeklyTotalPrice": 41.4,
+          "weeklyWastedPrice": 6.14,
+          "itemWeeklyTotalPrice": 15.0,
+          "itemWeeklyWastedPrice": 2.0
+        }
+      ],
+      "total": 41.4,
+      "id": 1
+    },
+    {
+      "date": "2025-11-02",
+      "items": [
+        {
+          "name": "Tomato",
+          "amount": 23.0,
+          "totalPrice": 41.4,
+          "wastedPrice": 2.3400000000000003,
+          "weeklyTotalPrice": 93.3,
+          "weeklyWastedPrice": 4.07,
+          "itemWeeklyTotalPrice": 41.4,
+          "itemWeeklyWastedPrice": 2.3400000000000003
+        },
+        {
+          "name": "Potato",
+          "amount": 15.0,
+          "totalPrice": 37.5,
+          "wastedPrice": 1.25,
+          "weeklyTotalPrice": 93.3,
+          "weeklyWastedPrice": 4.07,
+          "itemWeeklyTotalPrice": 37.5,
+          "itemWeeklyWastedPrice": 1.25
+        },
+        {
+          "name": "Onion",
+          "amount": 12.0,
+          "totalPrice": 14.399999999999999,
+          "wastedPrice": 0.48,
+          "weeklyTotalPrice": 93.3,
+          "weeklyWastedPrice": 4.07,
+          "itemWeeklyTotalPrice": 14.399999999999999,
+          "itemWeeklyWastedPrice": 0.48
+        }
+      ],
+      "total": 93.30000000000001,
+      "id": 2
+    },
+    {
+      "date": "2025-10-26",
+      "items": [
+        {
+          "name": "Tomato",
+          "amount": 18.0,
+          "totalPrice": 32.4,
+          "wastedPrice": 2.8800000000000003,
+          "weeklyTotalPrice": 68.2,
+          "weeklyWastedPrice": 5.23,
+          "itemWeeklyTotalPrice": 32.4,
+          "itemWeeklyWastedPrice": 2.8800000000000003
+        },
+        {
+          "name": "Potato",
+          "amount": 10.0,
+          "totalPrice": 25.0,
+          "wastedPrice": 1.75,
+          "weeklyTotalPrice": 68.2,
+          "weeklyWastedPrice": 5.23,
+          "itemWeeklyTotalPrice": 25.0,
+          "itemWeeklyWastedPrice": 1.75
+        },
+        {
+          "name": "Onion",
+          "amount": 9.0,
+          "totalPrice": 10.799999999999999,
+          "wastedPrice": 0.6,
+          "weeklyTotalPrice": 68.2,
+          "weeklyWastedPrice": 5.23,
+          "itemWeeklyTotalPrice": 10.799999999999999,
+          "itemWeeklyWastedPrice": 0.6
+        }
+      ],
+      "total": 68.2,
+      "id": 3
+    },
+    {
+      "date": "2025-10-19",
+      "items": [
+        {
+          "name": "Tomato",
+          "amount": 21.0,
+          "totalPrice": 37.800000000000004,
+          "wastedPrice": 2.52,
+          "weeklyTotalPrice": 84.80000000000001,
+          "weeklyWastedPrice": 4.5,
+          "itemWeeklyTotalPrice": 37.800000000000004,
+          "itemWeeklyWastedPrice": 2.52
+        },
+        {
+          "name": "Potato",
+          "amount": 14.0,
+          "totalPrice": 35.0,
+          "wastedPrice": 1.5,
+          "weeklyTotalPrice": 84.80000000000001,
+          "weeklyWastedPrice": 4.5,
+          "itemWeeklyTotalPrice": 35.0,
+          "itemWeeklyWastedPrice": 1.5
+        },
+        {
+          "name": "Onion",
+          "amount": 10.0,
+          "totalPrice": 12.0,
+          "wastedPrice": 0.48,
+          "weeklyTotalPrice": 84.80000000000001,
+          "weeklyWastedPrice": 4.5,
+          "itemWeeklyTotalPrice": 12.0,
+          "itemWeeklyWastedPrice": 0.48
+        }
+      ],
+      "total": 84.80000000000001,
+      "id": 4
+    },
+    {
+      "date": "2025-10-12",
+      "items": [
+        {
+          "name": "Tomato",
+          "amount": 19.0,
+          "totalPrice": 34.2,
+          "wastedPrice": 3.24,
+          "weeklyTotalPrice": 75.0,
+          "weeklyWastedPrice": 5.59,
+          "itemWeeklyTotalPrice": 34.2,
+          "itemWeeklyWastedPrice": 3.24
+        },
+        {
+          "name": "Potato",
+          "amount": 12.0,
+          "totalPrice": 30.0,
+          "wastedPrice": 1.75,
+          "weeklyTotalPrice": 75.0,
+          "weeklyWastedPrice": 5.59,
+          "itemWeeklyTotalPrice": 30.0,
+          "itemWeeklyWastedPrice": 1.75
+        },
+        {
+          "name": "Onion",
+          "amount": 9.0,
+          "totalPrice": 10.799999999999999,
+          "wastedPrice": 0.6,
+          "weeklyTotalPrice": 75.0,
+          "weeklyWastedPrice": 5.59,
+          "itemWeeklyTotalPrice": 10.799999999999999,
+          "itemWeeklyWastedPrice": 0.6
+        }
+      ],
+      "total": 75.0,
+      "id": 5
+    },
+    {
+      "date": "2025-10-05",
+      "items": [
+        {
+          "name": "Tomato",
+          "amount": 22.0,
+          "totalPrice": 39.6,
+          "wastedPrice": 1.8,
+          "weeklyTotalPrice": 85.3,
+          "weeklyWastedPrice": 3.16,
+          "itemWeeklyTotalPrice": 39.6,
+          "itemWeeklyWastedPrice": 1.8
+        },
+        {
+          "name": "Potato",
+          "amount": 13.0,
+          "totalPrice": 32.5,
+          "wastedPrice": 1.0,
+          "weeklyTotalPrice": 85.3,
+          "weeklyWastedPrice": 3.16,
+          "itemWeeklyTotalPrice": 32.5,
+          "itemWeeklyWastedPrice": 1.0
+        },
+        {
+          "name": "Onion",
+          "amount": 11.0,
+          "totalPrice": 13.2,
+          "wastedPrice": 0.36,
+          "weeklyTotalPrice": 85.3,
+          "weeklyWastedPrice": 3.16,
+          "itemWeeklyTotalPrice": 13.2,
+          "itemWeeklyWastedPrice": 0.36
+        }
+      ],
+      "total": 85.3,
+      "id": 6
+    },
+    {
+      "date": "2025-09-28",
+      "items": [
+        {
+          "name": "Tomato",
+          "amount": 16.0,
+          "totalPrice": 28.8,
+          "wastedPrice": 2.16,
+          "weeklyTotalPrice": 60.9,
+          "weeklyWastedPrice": 3.89,
+          "itemWeeklyTotalPrice": 28.8,
+          "itemWeeklyWastedPrice": 2.16
+        },
+        {
+          "name": "Potato",
+          "amount": 9.0,
+          "totalPrice": 22.5,
+          "wastedPrice": 1.25,
+          "weeklyTotalPrice": 60.9,
+          "weeklyWastedPrice": 3.89,
+          "itemWeeklyTotalPrice": 22.5,
+          "itemWeeklyWastedPrice": 1.25
+        },
+        {
+          "name": "Onion",
+          "amount": 8.0,
+          "totalPrice": 9.6,
+          "wastedPrice": 0.48,
+          "weeklyTotalPrice": 60.9,
+          "weeklyWastedPrice": 3.89,
+          "itemWeeklyTotalPrice": 9.6,
+          "itemWeeklyWastedPrice": 0.48
+        }
+      ],
+      "total": 60.9,
+      "id": 7
+    },
+    {
+      "date": "2025-09-21",
+      "items": [
+        {
+          "name": "Tomato",
+          "amount": 20.0,
+          "totalPrice": 36.0,
+          "wastedPrice": 2.7,
+          "weeklyTotalPrice": 75.5,
+          "weeklyWastedPrice": 4.5600000000000005,
+          "itemWeeklyTotalPrice": 36.0,
+          "itemWeeklyWastedPrice": 2.7
+        },
+        {
+          "name": "Potato",
+          "amount": 11.0,
+          "totalPrice": 27.5,
+          "wastedPrice": 1.5,
+          "weeklyTotalPrice": 75.5,
+          "weeklyWastedPrice": 4.5600000000000005,
+          "itemWeeklyTotalPrice": 27.5,
+          "itemWeeklyWastedPrice": 1.5
+        },
+        {
+          "name": "Onion",
+          "amount": 10.0,
+          "totalPrice": 12.0,
+          "wastedPrice": 0.36,
+          "weeklyTotalPrice": 75.5,
+          "weeklyWastedPrice": 4.5600000000000005,
+          "itemWeeklyTotalPrice": 12.0,
+          "itemWeeklyWastedPrice": 0.36
+        }
+      ],
+      "total": 75.5,
+      "id": 8
+    },
+    {
+      "date": "2025-09-14",
+      "items": [
+        {
+          "name": "Tomato",
+          "amount": 18.0,
+          "totalPrice": 32.4,
+          "wastedPrice": 0.0,
+          "weeklyTotalPrice": 73.2,
+          "weeklyWastedPrice": 0.0,
+          "itemWeeklyTotalPrice": 32.4,
+          "itemWeeklyWastedPrice": 0.0
+        },
+        {
+          "name": "Potato",
+          "amount": 12.0,
+          "totalPrice": 30.0,
+          "wastedPrice": 0.0,
+          "weeklyTotalPrice": 73.2,
+          "weeklyWastedPrice": 0.0,
+          "itemWeeklyTotalPrice": 30.0,
+          "itemWeeklyWastedPrice": 0.0
+        },
+        {
+          "name": "Onion",
+          "amount": 9.0,
+          "totalPrice": 10.799999999999999,
+          "wastedPrice": 0.0,
+          "weeklyTotalPrice": 73.2,
+          "weeklyWastedPrice": 0.0,
+          "itemWeeklyTotalPrice": 10.799999999999999,
+          "itemWeeklyWastedPrice": 0.0
+        }
+      ],
+      "total": 73.2,
+      "id": 9
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "recommendation": "Those Tomato could disappear fast—share what’s ready before topping up. Keep servings easy and finish what’s chilled first.",
+  "generated_at": "2025-11-09",
+  "forecast": {
+    "Tomato": 17.74694061279297,
+    "Potato": 11.0870943069458,
+    "Carrot": 9.192564964294434
+  },
+  "recent_weeks": [
+    {
+      "week_ending": "2025-11-02",
+      "net": {
+        "Tomato": 21.7,
+        "Potato": 14.5,
+        "Carrot": 11.6
+      },
+      "waste": {
+        "Tomato": 1.3,
+        "Potato": 0.5,
+        "Carrot": 0.4
+      },
+      "total_net": 47.8,
+      "total_waste": 2.2,
+      "waste_ratio": 0.04602510460251047
+    },
+    {
+      "week_ending": "2025-11-09",
+      "net": {
+        "Tomato": 8.1,
+        "Potato": 5.2,
+        "Carrot": 6.4
+      },
+      "waste": {
+        "Tomato": 1.9,
+        "Potato": 0.8,
+        "Carrot": 0.6
+      },
+      "total_net": 19.7,
+      "total_waste": 3.3,
+      "waste_ratio": 0.16751269035532995
+    }
+  ]
+}

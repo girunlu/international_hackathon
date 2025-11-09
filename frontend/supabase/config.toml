@@ -1,0 +1,13 @@
+project_id = "oxiswcekrnshfbxgvbyk"
+
+[functions.detect-item]
+verify_jwt = false
+
+[functions.analyze-waste]
+verify_jwt = false
+
+[functions.check-waste-history]
+verify_jwt = false
+
+[functions.save-item]
+verify_jwt = false
