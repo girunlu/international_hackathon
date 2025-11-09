@@ -27,6 +27,7 @@ import {
   addShoppingListItem,
   checkWasteHistory,
   detectItem,
+  getFrequentItems,
   getShoppingList,
   markItemsAsBought,
   recordSavedItem,
@@ -56,7 +57,11 @@ const ShoppingList = () => {
   const [pendingItem, setPendingItem] = useState<PendingItemState | null>(null);
   const [cameraImage, setCameraImage] = useState<string | null>(null);
   const [galleryImage, setGalleryImage] = useState<string | null>(null);
+  const [detectedItem, setDetectedItem] = useState<{ name: string; confidence?: number } | null>(null);
+  const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
   const [isDetectingItem, setIsDetectingItem] = useState<boolean>(false);
+  const [frequentItems, setFrequentItems] = useState<string[]>([]);
+  const [isLoadingFrequent, setIsLoadingFrequent] = useState<boolean>(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [isCameraModalOpen, setIsCameraModalOpen] = useState<boolean>(false);
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
@@ -65,12 +70,27 @@ const ShoppingList = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const { toast } = useToast();
 
+  const updateImageDimensions = useCallback((dataUrl: string | null) => {
+    if (!dataUrl) {
+      setImageDimensions(null);
+      return;
+    }
+
+    const img = new Image();
+    img.onload = () => {
+      setImageDimensions({ width: img.width, height: img.height });
+    };
+    img.src = dataUrl;
+  }, []);
+
   const resetForm = useCallback(() => {
     setNewItemName("");
     setNewItemAmount("");
     setNewItemUnit("");
     setCameraImage(null);
     setGalleryImage(null);
+    setDetectedItem(null);
+    setImageDimensions(null);
   }, []);
 
   const loadShoppingList = useCallback(async () => {
@@ -93,6 +113,23 @@ const ShoppingList = () => {
   useEffect(() => {
     loadShoppingList();
   }, [loadShoppingList]);
+
+  useEffect(() => {
+    const loadFrequentItems = async () => {
+      try {
+        setIsLoadingFrequent(true);
+        const items = await getFrequentItems();
+        setFrequentItems(items);
+      } catch (error) {
+        console.error("Failed to load frequent items:", error);
+        setFrequentItems([]);
+      } finally {
+        setIsLoadingFrequent(false);
+      }
+    };
+
+    loadFrequentItems();
+  }, []);
 
   const performAdd = useCallback(
     async (itemName: string, quantityNumeric: number, unit: string | null, toastMessage?: string) => {
@@ -501,13 +538,40 @@ const ShoppingList = () => {
     const base64Image = canvasElement.toDataURL("image/jpeg");
 
     setCameraImage(base64Image);
+    setGalleryImage(null);
+    updateImageDimensions(base64Image);
     setIsCameraModalOpen(false);
     stopCamera();
 
     setIsDetectingItem(true);
+    setDetectedItem(null);
     try {
-      await detectItem(base64Image);
-      // TODO: populate detection result once UI flow is defined
+      const result = await detectItem(base64Image);
+      const detectedName =
+        typeof result?.item_name === "string" && result.item_name.trim()
+          ? result.item_name.trim()
+          : null;
+
+      if (detectedName) {
+        const formattedName = detectedName
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+        setDetectedItem({
+          name: formattedName,
+          confidence: typeof result.confidence === "number" ? result.confidence : undefined,
+        });
+        setNewItemName((prev) => (prev.trim() ? prev : formattedName));
+        toast({
+          title: "Item detected",
+          description: `We think this is ${formattedName}. Adjust as needed before adding.`,
+        });
+      } else {
+        toast({
+          title: "No confident match",
+          description: "We couldn't confidently recognize the item. Please add it manually.",
+        });
+      }
     } catch (error) {
       console.error("Error detecting item from camera image:", error);
       toast({
@@ -530,11 +594,38 @@ const ShoppingList = () => {
     reader.onloadend = async () => {
       const base64Image = reader.result as string;
       setGalleryImage(base64Image);
+      setCameraImage(null);
+      updateImageDimensions(base64Image);
       setIsDetectingItem(true);
+      setDetectedItem(null);
 
       try {
-        await detectItem(base64Image);
-        // TODO: populate detection result once UI flow is defined
+        const result = await detectItem(base64Image);
+        const detectedName =
+          typeof result?.item_name === "string" && result.item_name.trim()
+            ? result.item_name.trim()
+            : null;
+
+        if (detectedName) {
+          const formattedName = detectedName
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+          setDetectedItem({
+            name: formattedName,
+            confidence: typeof result.confidence === "number" ? result.confidence : undefined,
+          });
+          setNewItemName((prev) => (prev.trim() ? prev : formattedName));
+          toast({
+            title: "Item detected",
+            description: `We think this is ${formattedName}. Adjust as needed before adding.`,
+          });
+        } else {
+          toast({
+            title: "No confident match",
+            description: "We couldn't confidently recognize the item. Please add it manually.",
+          });
+        }
       } catch (error) {
         console.error("Error detecting item from uploaded image:", error);
         toast({
@@ -618,15 +709,25 @@ const ShoppingList = () => {
             />
 
           {(cameraImage || galleryImage) && (
-            <div className="rounded-lg border border-muted p-3 flex flex-col gap-2">
+            <div className="rounded-lg border border-muted p-3 flex flex-col gap-3">
               <span className="text-sm font-medium text-muted-foreground">
                 Image preview (remove or add item to clear)
               </span>
-              <div className="relative w-full h-48 overflow-hidden rounded-md bg-muted">
+              <div
+                className="relative w-full max-w-full rounded-md bg-muted flex items-center justify-center overflow-hidden"
+                style={
+                  imageDimensions
+                    ? {
+                        aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}`,
+                        maxHeight: "18rem",
+                      }
+                    : { minHeight: "12rem", maxHeight: "18rem" }
+                }
+              >
                 <img
                   src={cameraImage ?? galleryImage ?? undefined}
                   alt="Selected item preview"
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-contain"
                 />
                 {isDetectingItem && (
                   <div className="absolute inset-0 bg-background/70 flex items-center justify-center">
@@ -634,6 +735,11 @@ const ShoppingList = () => {
                   </div>
                 )}
               </div>
+              {imageDimensions && (
+                <span className="text-xs text-muted-foreground">
+                  {imageDimensions.width} × {imageDimensions.height}px
+                </span>
+              )}
               <div className="flex gap-2 justify-end">
                 <Button
                   variant="ghost"
@@ -641,14 +747,50 @@ const ShoppingList = () => {
                   onClick={() => {
                     setCameraImage(null);
                     setGalleryImage(null);
+                    setDetectedItem(null);
+                    setImageDimensions(null);
                   }}
                   disabled={isDetectingItem}
                 >
                   Clear Image
                 </Button>
+                {detectedItem && (
+                  <div className="flex items-center justify-between text-xs text-muted-foreground bg-muted/60 px-3 py-2 rounded-md">
+                    <span>
+                      Detected: <span className="font-medium text-foreground">{detectedItem.name}</span>
+                    </span>
+                    {typeof detectedItem.confidence === "number" && (
+                      <span>{Math.round(detectedItem.confidence * 100)}% confidence</span>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           )}
+
+            {/* Frequently Bought */}
+            <div className="space-y-2">
+              <span className="text-sm font-medium text-foreground">Frequently Bought</span>
+              <div className="flex flex-wrap gap-2">
+                {isLoadingFrequent ? (
+                  <span className="text-xs text-muted-foreground">Loading...</span>
+                ) : frequentItems.length === 0 ? (
+                  <span className="text-xs text-muted-foreground">No frequent items yet.</span>
+                ) : (
+                  frequentItems.map((item) => (
+                    <Button
+                      key={item}
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setNewItemName(item)}
+                      className="text-xs"
+                    >
+                      {item}
+                    </Button>
+                  ))
+                )}
+              </div>
+            </div>
 
             {/* Manual Add */}
             <div className="flex gap-2">

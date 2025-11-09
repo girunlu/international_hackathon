@@ -5,7 +5,7 @@ date_wasted,item_name,waste_amount
 2025-09-24,Tomato,1.2
 2025-09-24,Potato,0.5
 2025-09-24,Onion,0.4
-2025-10-01,Tomato,1
+2025-10-01,Tomato,1.0
 2025-10-01,Potato,0.4
 2025-10-01,Onion,0.3
 2025-10-08,Tomato,1.8
@@ -23,3 +23,6 @@ date_wasted,item_name,waste_amount
 2025-11-05,Tomato,1.9
 2025-11-05,Potato,0.8
 2025-11-05,Onion,0.6
+2025-11-09,Tomato,2.0
+2025-11-09,Tomato,2.0
+2025-11-09,Tomato,2.0

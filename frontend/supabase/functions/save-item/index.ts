@@ -5,41 +5,66 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+const BACKEND_URL = Deno.env.get("PY_BACKEND_URL") ?? "http://127.0.0.1:8000";
+
+async function callBackend<T>(endpoint: string, payload: unknown): Promise<T> {
+  const response = await fetch(`${BACKEND_URL}${endpoint}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(`Backend ${endpoint} failed: ${response.status} ${message}`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { itemName, originalAmount, savedAmount } = await req.json();
-    
-    console.log('Saving item:', { itemName, originalAmount, savedAmount });
-    
-    // TODO: Replace this with your Python function that:
-    // 1. Reads saved_items.csv (or creates if doesn't exist)
-    // 2. Appends new row with: id, item_name, date, original_amount, saved_amount
-    // 3. Calculates savings based on difference
-    
-    // Mock response - replace with actual CSV writing logic
-    const savedItem = {
-      id: Date.now(),
-      item_name: itemName,
-      date: new Date().toISOString().split('T')[0],
-      original_amount: originalAmount,
-      saved_amount: savedAmount,
-      saved_by: calculateSavings(originalAmount, savedAmount)
+    const {
+      itemName,
+      originalQuantity,
+      originalUnit,
+      savedQuantity,
+      savedUnit,
+    } = await req.json();
+
+    if (typeof itemName !== "string" || !itemName.trim()) {
+      return new Response(
+        JSON.stringify({ error: "itemName is required" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
+    }
+
+    if (typeof savedQuantity !== "number" || !Number.isFinite(savedQuantity) || savedQuantity <= 0) {
+      return new Response(
+        JSON.stringify({ error: "savedQuantity must be a positive number" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
+    }
+
+    const payload = {
+      itemName: itemName.trim(),
+      originalQuantity: typeof originalQuantity === "number" ? originalQuantity : undefined,
+      originalUnit,
+      savedQuantity,
+      savedUnit,
+      finalQuantity: savedQuantity,
+      unit: savedUnit,
     };
-    
-    console.log('Saved item to CSV:', savedItem);
-    
-    return new Response(
-      JSON.stringify({ 
-        success: true, 
-        savedItem 
-      }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-    
+
+    const result = await callBackend("/record-saved-item", payload);
+
+    return new Response(JSON.stringify(result), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error('Error in save-item:', error);
     return new Response(

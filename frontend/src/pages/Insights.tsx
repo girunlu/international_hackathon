@@ -77,10 +77,17 @@ const Insights = () => {
   ];
 
   const formatItemLabel = (value: string) => {
+    if (!value) {
+      return "";
+    }
     if (value.toLowerCase() === "general") {
       return "General";
     }
-    return value.charAt(0).toUpperCase() + value.slice(1);
+    return value
+      .split(/\s+/)
+      .filter(Boolean)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   };
 
   const formatXAxisTick = (value: string) => {

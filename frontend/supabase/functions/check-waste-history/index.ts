@@ -5,49 +5,50 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+const BACKEND_URL = Deno.env.get("PY_BACKEND_URL") ?? "http://127.0.0.1:8000";
+
+async function callBackend<T>(endpoint: string, payload: unknown): Promise<T> {
+  const response = await fetch(`${BACKEND_URL}${endpoint}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(`Backend ${endpoint} failed: ${response.status} ${message}`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const { itemName, requestedAmount } = await req.json();
-    
-    console.log('Checking waste history for:', itemName, 'Requested:', requestedAmount);
-    
-    // TODO: Replace this with your Python function that:
-    // 1. Reads waste_log.csv
-    // 2. Filters by item_name where waste_date is within last 7 days
-    // 3. Gets the most recent waste entry for this item
-    // 4. Calculates suggested reduced amount based on waste history
-    // 5. Returns hasWaste: true/false, wastedAmount, and suggestedAmount
-    
-    // Mock response - replace with actual CSV reading logic
-    const mockWasteData: { [key: string]: { amount: string, suggestedAmount: string } } = {
-      'Milk': { amount: '0.5L', suggestedAmount: '1.5L' },
-      'Bread': { amount: '2 pieces', suggestedAmount: '1 unit' },
-      'Lettuce': { amount: '0.3kg', suggestedAmount: '0.5kg' },
-    };
-    
-    const wasteInfo = mockWasteData[itemName];
-    
-    if (wasteInfo) {
+    const { itemName, quantity_numeric, unit } = await req.json();
+
+    if (typeof itemName !== "string" || !itemName.trim()) {
       return new Response(
-        JSON.stringify({ 
-          hasWaste: true, 
-          wastedAmount: wasteInfo.amount,
-          suggestedAmount: wasteInfo.suggestedAmount,
-          itemName 
-        }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: "itemName is required" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
       );
     }
-    
-    return new Response(
-      JSON.stringify({ hasWaste: false }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+
+    const result = await callBackend(
+      "/check-waste-history",
+      {
+        itemName: itemName.trim(),
+        quantity_numeric,
+        unit,
+      },
     );
-    
+
+    return new Response(JSON.stringify(result), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error('Error in check-waste-history:', error);
     return new Response(

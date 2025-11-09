@@ -4,37 +4,37 @@
       "date": "2025-11-09",
       "items": [
         {
-          "name": "onion",
+          "name": "Onion",
           "amount": 7.0,
           "totalPrice": 8.4,
           "wastedPrice": 0.72,
-          "weeklyTotalPrice": 41.4,
-          "weeklyWastedPrice": 6.14,
+          "weeklyTotalPrice": 46.6,
+          "weeklyWastedPrice": 16.94,
           "itemWeeklyTotalPrice": 8.4,
           "itemWeeklyWastedPrice": 0.72
         },
         {
           "name": "Tomato",
-          "amount": 10.0,
-          "totalPrice": 18.0,
-          "wastedPrice": 3.42,
-          "weeklyTotalPrice": 41.4,
-          "weeklyWastedPrice": 6.14,
-          "itemWeeklyTotalPrice": 18.0,
-          "itemWeeklyWastedPrice": 3.42
+          "amount": 11.5,
+          "totalPrice": 20.7,
+          "wastedPrice": 14.22,
+          "weeklyTotalPrice": 46.6,
+          "weeklyWastedPrice": 16.94,
+          "itemWeeklyTotalPrice": 20.7,
+          "itemWeeklyWastedPrice": 14.22
         },
         {
           "name": "Potato",
-          "amount": 6.0,
-          "totalPrice": 15.0,
+          "amount": 7.0,
+          "totalPrice": 17.5,
           "wastedPrice": 2.0,
-          "weeklyTotalPrice": 41.4,
-          "weeklyWastedPrice": 6.14,
-          "itemWeeklyTotalPrice": 15.0,
+          "weeklyTotalPrice": 46.6,
+          "weeklyWastedPrice": 16.94,
+          "itemWeeklyTotalPrice": 17.5,
           "itemWeeklyWastedPrice": 2.0
         }
       ],
-      "total": 41.4,
+      "total": 46.6,
       "id": 1
     },
     {

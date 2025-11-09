@@ -6,6 +6,23 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+const BACKEND_URL = Deno.env.get("PY_BACKEND_URL") ?? "http://127.0.0.1:8000";
+
+async function callBackend<T>(endpoint: string, payload: unknown): Promise<T> {
+  const response = await fetch(`${BACKEND_URL}${endpoint}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(`Backend ${endpoint} failed: ${response.status} ${message}`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -13,23 +30,21 @@ serve(async (req) => {
 
   try {
     const { image } = await req.json();
-    
-    console.log('Received image for item detection');
-    
-    // PLACEHOLDER FUNCTION - Replace with your Python code
-    // This function should:
-    // 1. Receive a base64 image string
-    // 2. Process the image using your Python ML model
-    // 3. Return the detected item name
-    
-    // Mock response for now
-    const mockItems = ['Milk', 'Bread', 'Eggs', 'Tomatoes', 'Lettuce', 'Cheese', 'Apples', 'Bananas'];
-    const randomItem = mockItems[Math.floor(Math.random() * mockItems.length)];
-    
-    return new Response(
-      JSON.stringify({ item_name: randomItem }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    if (typeof image !== "string" || !image.trim()) {
+      return new Response(
+        JSON.stringify({ error: "Missing image payload" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
+      );
+    }
+
+    const result = await callBackend<{ item_name: string; confidence?: number }>(
+      "/detect-item",
+      { image },
     );
+
+    return new Response(JSON.stringify(result), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error('Error in detect-item:', error);
     return new Response(

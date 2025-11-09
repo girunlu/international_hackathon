@@ -1,23 +1,23 @@
 {
-  "wastePercentage": 4.56,
-  "totalSpent": 134.7,
-  "totalSaved": 29.1,
-  "totalWasted": 6.14,
+  "wastePercentage": 12.11,
+  "totalSpent": 139.9,
+  "totalSaved": 31.8,
+  "totalWasted": 16.94,
   "topWasted": [
     {
-      "name": "onion",
+      "name": "Tomato",
+      "count": 4,
+      "amount": 62.1
+    },
+    {
+      "name": "Onion",
       "count": 3,
       "amount": 22.799999999999997
     },
     {
       "name": "Potato",
-      "count": 2,
-      "amount": 52.5
-    },
-    {
-      "name": "Tomato",
-      "count": 2,
-      "amount": 59.4
+      "count": 3,
+      "amount": 55.0
     }
   ],
   "topSaved": [
@@ -27,14 +27,14 @@
       "count": 2
     },
     {
-      "name": "onion",
-      "amount": 6.0,
-      "count": 1
+      "name": "Onion",
+      "amount": 6.96,
+      "count": 2
     },
     {
       "name": "Tomato",
-      "amount": 4.14,
-      "count": 1
+      "amount": 6.84,
+      "count": 3
     }
   ],
   "weeklySuggestion": "Those Tomato could disappear fast—share what’s ready before topping up. Keep servings easy and finish what’s chilled first.",

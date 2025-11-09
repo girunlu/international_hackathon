@@ -26,6 +26,11 @@ The backend loads CSV/JSON data from `backend/database` and `frontend/static_fil
 
 The Vite dev server proxies requests to the FastAPI instance running on port 8000. Update `.env` settings if you customize ports.
 
+### Optional Supabase Edge Functions
+- The functions under `frontend/supabase/functions` forward requests to the FastAPI service.
+- Set the `PY_BACKEND_URL` environment variable when deploying to point at your FastAPI base URL (defaults to `http://127.0.0.1:8000` for local dev).
+- These functions can be deployed if you need Supabase-hosted endpoints; otherwise the frontend talks directly to FastAPI.
+
 ## Project Structure
 ```
 .
@@ -46,5 +51,10 @@ The Vite dev server proxies requests to the FastAPI instance running on port 800
 - **Accomplishments:** Delivered a working prototype that unifies real-time recognition, predictive analytics, and conversational guidance in one cohesive interface.
 - **Lessons learned:** Everyday habits scale; consistent reductions per household compound into major economic and ecological gains. Adaptive AI and user-centered simplicity power real adoption.
 - **What’s next:** Expand region-aware recommendations, partner with local retailers, and extend forecasting to new contexts (fast food, offices) using open datasets and richer AI pipelines.
+
+## Data Snapshots & Fallbacks
+- The backend writes derived JSON snapshots into `frontend/static_files` so the SPA can render instantly and survive brief backend outages.
+- When the frontend cannot reach FastAPI it automatically falls back to the most recent snapshot (see `STATIC_ENDPOINT_MAP` in `frontend/src/lib/backend-api.ts`).
+- Run the FastAPI workflows (add, buy, log waste) to regenerate these snapshots before building for production to avoid stale data in `dist/static_files`.
 
 

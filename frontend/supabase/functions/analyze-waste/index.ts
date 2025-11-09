@@ -6,6 +6,23 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+const BACKEND_URL = Deno.env.get("PY_BACKEND_URL") ?? "http://127.0.0.1:8000";
+
+async function callBackend<T>(endpoint: string, payload: unknown): Promise<T> {
+  const response = await fetch(`${BACKEND_URL}${endpoint}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    const message = await response.text();
+    throw new Error(`Backend ${endpoint} failed: ${response.status} ${message}`);
+  }
+
+  return response.json() as Promise<T>;
+}
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -13,42 +30,17 @@ serve(async (req) => {
 
   try {
     const { filter, timeRange } = await req.json();
-    
-    console.log(`Analyzing waste with filter: ${filter}, timeRange: ${timeRange}`);
-    
-    // PLACEHOLDER FUNCTION - Replace with your Python code
-    // This function should:
-    // 1. Read CSV files: purchases.csv, waste_log.csv, categories.csv
-    // 2. Filter data based on the 'filter' parameter
-    // 3. Calculate analytics:
-    //    - wastePercentage = (total wasted value / total spent) × 100
-    //    - totalSpent = sum of all purchases
-    //    - totalSaved = your custom logic
-    //    - topWasted = top 3 most wasted items
-    //    - topSaved = top 3 best savings
-    // 4. Return JSON with calculated results
-    
-    // Mock response for now
-    const mockData = {
-      wastePercentage: Math.floor(Math.random() * 20) + 5,
-      totalSpent: Math.random() * 500 + 100,
-      totalSaved: Math.random() * 300 + 50,
-      topWasted: [
-        { name: 'Lettuce', count: 8, amount: 24.50 },
-        { name: 'Tomatoes', count: 6, amount: 18.30 },
-        { name: 'Bread', count: 4, amount: 12.00 },
-      ],
-      topSaved: [
-        { name: 'Bulk Rice', count: 12, amount: 85.40 },
-        { name: 'Meal Prep', count: 24, amount: 156.20 },
-        { name: 'Sale Items', count: 18, amount: 94.60 },
-      ],
+
+    const payload = {
+      filter: typeof filter === "string" && filter.trim() ? filter.trim() : "general",
+      timeRange: typeof timeRange === "string" && timeRange.trim() ? timeRange.trim() : "weekly",
     };
-    
-    return new Response(
-      JSON.stringify(mockData),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+
+    const result = await callBackend("/analyze-waste", payload);
+
+    return new Response(JSON.stringify(result), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
   } catch (error) {
     console.error('Error in analyze-waste:', error);
     return new Response(
